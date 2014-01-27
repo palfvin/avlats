@@ -2,11 +2,29 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.1'
+gem 'google_drive'
+gem 'rmagick4j', require: false
+gem 'qrio'
+gem 'zxing'
+gem 'jruby-jars'
+gem 'therubyrhino'
 
 group :development, :test do
+  gem 'activerecord-jdbcsqlite3-adapter'
+  gem 'pry'
+  # gem 'pry-byebug'
+  # gem 'pry-stack_explorer'
+  gem 'rqrcode'
+  gem 'prawn'
+  gem 'prawn-qrcode'
+end
+
+group :test do
   gem 'rspec'
   gem 'rspec-rails'
-  gem 'sqlite3'
+  gem 'cucumber-rails', require: false
+  gem 'database_cleaner'
+  gem 'selenium-webdriver'
 end
 
 # gem 'tesseract-ocr'
@@ -15,7 +33,7 @@ gem 'pdf-reader'
 gem "twitter-bootstrap-rails"
 
 group :production do
-  gem 'pg'
+  gem 'activerecord-jdbcpostgresql-adapter'
   gem 'rails_12factor'
 end
 
