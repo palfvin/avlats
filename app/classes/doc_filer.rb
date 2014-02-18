@@ -1,7 +1,7 @@
 class DocFiler
 
   def initialize(name, password, options = {})
-    o = {filer: GoogleDrive, root: 'scans').merge(options)
+    o = {filer: GoogleDrive, root: 'scans'}.merge(options)
     root = o[:root] ; filer = o[:filer]
     @session = filer.login(name, password)
     @root = root

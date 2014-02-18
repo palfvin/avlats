@@ -1,9 +1,8 @@
 GIT
   remote: git://github.com/palfvin/zxing.rb.git
-  revision: 07e5d354ab8f0acd671ad872b74812e851a2d23f
+  revision: 36a8de952793276a088ff4ec926038c744829200
   specs:
     zxing (0.3.1)
-      jruby-jars
 
 GEM
   remote: https://rubygems.org/
