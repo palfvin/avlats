@@ -3,23 +3,36 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.1'
 gem 'google_drive'
-gem 'rmagick4j', require: false
-gem 'qrio', require: false
+
+platforms :jruby do
+  gem 'rmagick4j', require: false
+  gem 'therubyrhino'
+end
+
+platforms :ruby do
+  gem 'rmagick', require: false
+  gem 'jruby-jars'
+end
+
 gem 'zxing', git: 'git://github.com/palfvin/zxing.rb.git', require: false
 gem 'peach'
-# gem 'jruby-jars'
-gem 'therubyrhino'
 
 group :development, :test do
-  gem 'activerecord-jdbcsqlite3-adapter'
-  gem 'pry'
-  # gem 'newrelic_rpm'
-  # gem 'perftools.rb'
-  # gem 'pry-byebug'
-  # gem 'pry-stack_explorer'
-  gem 'rqrcode'
+
   gem 'prawn'
   gem 'prawn-qrcode'
+  gem 'pry'
+
+  platforms :ruby do
+    gem 'sqlite3'
+    gem 'pry-byebug'
+    gem 'pry-stack_explorer'
+  end
+
+  platform :jruby do
+    gem 'activerecord-jdbcsqlite3-adapter'
+  end
+
 end
 
 group :test do
@@ -31,12 +44,15 @@ group :test do
 end
 
 # gem 'tesseract-ocr'
-gem 'pdf-reader'
 
-gem "twitter-bootstrap-rails"
 
 group :production do
-  gem 'activerecord-jdbcpostgresql-adapter'
+  platform :ruby do
+    gem 'pg'
+  end
+  platform :jruby do
+    gem 'activerecord-jdbcpostgresql-adapter'
+  end
   gem 'rails_12factor'
 end
 

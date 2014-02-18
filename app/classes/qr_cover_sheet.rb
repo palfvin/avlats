@@ -3,6 +3,8 @@ class QRCoverSheet < CoverSheet
   require 'tmpdir'
   require 'peach'
   require 'zxing'
+  require 'prawn'
+  require 'prawn/qrcode'
 
   class << self
     attr_accessor :rotate_on_creation, :rotate_on_read_failure, :resolution, :extent

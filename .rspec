@@ -1,2 +1,4 @@
 --color
 --tag ~slow
+--tag ~test_setup
+
