@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.0.0', engine: 'jruby', engine_version: '1.7.10'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.1'
@@ -7,6 +8,7 @@ gem 'google_drive'
 platforms :jruby do
   gem 'rmagick4j', require: false
   gem 'therubyrhino'
+  gem 'activerecord-jdbc-adapter', :require => false
 end
 
 platforms :ruby do
@@ -30,7 +32,7 @@ group :development, :test do
   end
 
   platform :jruby do
-    gem 'activerecord-jdbcsqlite3-adapter'
+    gem 'jdbc-sqlite3', require: false
   end
 
 end
