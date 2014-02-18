@@ -16,7 +16,7 @@ describe "sheet processor", slow: true do
   it "should process sheets with test doubles" do
     pdf_filename = "mytemp_pdf"
     pdf_helper = double("pdf_helper")
-    set_proc = -> {}
+    set_proc = lambda {}
     allow(DefaultCoverSheet).to receive(:decode_pdf).and_return(doc_sheets)
     sets.each do |index, range|
       dummy_pdf = range ? "#{range}.pdf" : nil
@@ -28,15 +28,15 @@ describe "sheet processor", slow: true do
 
 
   it "should process sheets and pull the right pages by OCR validation" do
-    normalize = -> (text) {CoverSheet.normalize_cover_text(text)}
+    normalize = lambda { |text| CoverSheet.normalize_cover_text(text) }
     tempfiles = [] # To keep garbage collector from deleting the files
-    page_text = -> (i) {
+    page_text = lambda { |i| 
       binding.pry if i.nil?
       base_page_text+page_identifiers[i]}
     page_pdfs = doc_sheets.each_with_index.map do |text, i|
       text ||= page_text.(i)
       tempfiles << pdf_file = CoverSheet.tmpfile('.pdf', 'page')
-      DefaultCoverSheet.write_pdf(text, pdf_file, -> (t) {t})  # No special cover test
+      DefaultCoverSheet.write_pdf(text, pdf_file, lambda { |t| t })  # No special cover test
       pdf_file
     end
     tempfiles << doc_pdf = CoverSheet.tmpfile('.pdf', 'doc')

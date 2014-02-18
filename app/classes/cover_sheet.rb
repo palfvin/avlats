@@ -2,9 +2,9 @@ class CoverSheet
 
   DEFAULT_RECOGNIZER = /^COVER:\s*(.*?)\s*\Z/m
 
-  DEFAULT_FORMATTER = -> (text) {"COVER:\n#{text.upcase}"}
+  DEFAULT_FORMATTER = lambda { |text| "COVER:\n#{text.upcase}" }
 
-  NULL_FORMATTER = -> (text) {text}
+  NULL_FORMATTER = lambda { |text| text }
 
   NULL_RECOGNIZER = /(.*)/m
 
@@ -43,18 +43,21 @@ class CoverSheet
     filename
   end
 
-  def decode_pdf(pdf_filename, pagesize_threshold: 10000, normalize: false)
+  def decode_pdf(pdf_filename, options = {})
+    normalize = options[:normalize]
     pdf_filenames = PDFHelper.burst_pdf_file(pdf_filename)
     pdf_filenames.map do |pdf_filename|
-      decode_pdf_page(pdf_filename) if File.size(pdf_filename) < pagesize_threshold
+      decode_pdf_page(pdf_filename)
     end
   end
 
-  def decode_pdf_page(pdf_filename, normalize: false)
-    decode_tiff_page(PDFHelper.convert_pdf_to_single_tiff(pdf_filename, tmpfile('.tiff')), normalize)
+  def decode_pdf_page(pdf_filename, options = {})
+    normalize = options[:normalize]
+    decode_tiff_page(PDFHelper.convert_pdf_to_single_tiff(pdf_filename, tmpfile('.tiff')), normalize: normalize)
   end
 
-  def decode_tiff_page(tiff_filename, normalize: false)
+  def decode_tiff_page(tiff_filename, options = {})
+    normalize = options[:normalize]
     decode_pdf_page(PDFHelper.convert_tiff_to_pdf(tiff_filename, tmpfile('.pdf')), normalize: normalize)
   end
 

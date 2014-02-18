@@ -26,22 +26,25 @@ class QRCoverSheet < CoverSheet
     filename
   end
 
-  def self.decode_pdf(pdf_filename, pagesize_threshold: 10000, normalize: false)
+  def self.decode_pdf(pdf_filename, options = {})
+    normalize = options[:normalize]
     dir = Dir.mktmpdir
     output_file_template = File.join(dir, 'page%4d.png')
     PDFHelper.convert_pdf_to_png(pdf_filename, output_file_template)
     Dir.glob(File.join(dir,'page*.png')).map { |f| 
-      decode_png_page(f, normalize)}
+      decode_png_page(f, normalize: normalize)}
   end
 
-  def self.decode_pdf_page(pdf_filename, normalize: false)
+  def self.decode_pdf_page(pdf_filename, options = {})
+    normalize = options[:normalize]
     PDFHelper.convert_pdf_to_png(pdf_filename, png_filename = tmpfile('.png'))
-    decode_png_page(png_filename, normalize)
+    decode_png_page(png_filename, normalize: normalize)
   end
 
   private
 
-  def self.decode_png_page(png_filename, normalize)
+  def self.decode_png_page(png_filename, options = {})
+    normalize = options[:normalize]
     text = ZXing.decode(png_filename, rotate_and_retry_on_failure: true)
     normalize ? CoverSheet.normalize_cover_text(text) : text
   end
