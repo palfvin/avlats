@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
-ruby '1.9.3', engine: 'jruby', engine_version: '1.7.9'
+if ENV['DYNO']  # on heroku?
+  ruby '1.9.3', engine: 'jruby', engine_version: '1.7.9'
+else
+  ruby '1.9.3'
+end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.1'
@@ -13,7 +17,7 @@ end
 
 platforms :ruby do
   gem 'rmagick', require: false
-  gem 'jruby-jars'
+  gem 'jruby-jars', require: false
 end
 
 gem 'zxing', git: 'git://github.com/palfvin/zxing.rb.git', require: false
@@ -27,7 +31,7 @@ group :development, :test do
 
   platforms :ruby do
     gem 'sqlite3'
-    gem 'pry-byebug'
+    gem 'pry-debugger'
     gem 'pry-stack_explorer'
   end
 
@@ -49,11 +53,8 @@ end
 
 
 group :production do
-  platform :ruby do
-    gem 'pg'
-  end
   platform :jruby do
-    gem 'activerecord-jdbcpostgresql-adapter'
+    gem 'activerecord-jdbcpostgresql-adapter', require: false
   end
   gem 'rails_12factor'
 end
