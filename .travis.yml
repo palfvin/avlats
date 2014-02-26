@@ -1,0 +1,5 @@
+language: ruby
+bundler_args: "--standalone --binstubs --without documentation"
+rvm:
+  - jruby-19mode
+  - 2.0.0

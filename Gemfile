@@ -1,22 +1,44 @@
 source 'https://rubygems.org'
+if ENV['DYNO']  # on heroku?
+  ruby '1.9.3', engine: 'jruby', engine_version: '1.7.9'
+else
+  ruby '1.9.3'
+end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.1'
 gem 'google_drive'
-gem 'rmagick4j', require: false
-gem 'qrio'
-gem 'zxing'
-gem 'jruby-jars'
-gem 'therubyrhino'
+
+platforms :jruby do
+  gem 'rmagick4j', require: false
+  gem 'therubyrhino'
+  gem 'activerecord-jdbc-adapter', :require => false
+end
+
+platforms :ruby do
+  gem 'rmagick', require: false
+  gem 'jruby-jars', require: false
+end
+
+gem 'zxing', git: 'git://github.com/palfvin/zxing.rb.git', require: false
+gem 'peach'
 
 group :development, :test do
-  gem 'activerecord-jdbcsqlite3-adapter'
-  gem 'pry'
-  # gem 'pry-byebug'
-  # gem 'pry-stack_explorer'
-  gem 'rqrcode'
+
   gem 'prawn'
   gem 'prawn-qrcode'
+  gem 'pry'
+
+  platforms :ruby do
+    gem 'sqlite3'
+    gem 'pry-debugger'
+    gem 'pry-stack_explorer'
+  end
+
+  platform :jruby do
+    gem 'jdbc-sqlite3', require: false
+  end
+
 end
 
 group :test do
@@ -28,12 +50,12 @@ group :test do
 end
 
 # gem 'tesseract-ocr'
-gem 'pdf-reader'
 
-gem "twitter-bootstrap-rails"
 
 group :production do
-  gem 'activerecord-jdbcpostgresql-adapter'
+  platform :jruby do
+    gem 'activerecord-jdbcpostgresql-adapter', require: false
+  end
   gem 'rails_12factor'
 end
 
