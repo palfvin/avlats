@@ -17,7 +17,7 @@ class QRCoverSheet < CoverSheet
   self.rotate_on_read_failure = 30
 
   def self.write_pdf(text, filename = tmpfile('.pdf'), customize = CoverSheet::DEFAULT_FORMATTER)
-    prawn = Prawn::Document.new(left_margin: 200)
+    prawn = Prawn::Document.new
     prawn.rotate rotate_on_creation do
       prawn.print_qr_code(customize.(text), extent: extent, stroke: false)
     end
@@ -45,7 +45,7 @@ class QRCoverSheet < CoverSheet
 
   def self.decode_png_page(png_filename, options = {})
     normalize = options[:normalize]
-    text = ZXing.decode(png_filename, crop: {x: 0.33, y: 0, width: 0.33, height: 0.25}, rotate_and_retry_on_failure: true)
+    text = ZXing.decode(png_filename, crop: {x: 0, y: 0, width: 0.33, height: 0.33}, rotate_and_retry_on_failure: true)
     normalize ? CoverSheet.normalize_cover_text(text) : text
   end
 end

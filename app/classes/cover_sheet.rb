@@ -1,8 +1,8 @@
 class CoverSheet
 
-  DEFAULT_RECOGNIZER = /^COVER:\s*(.*?)\s*\Z/m
+  DEFAULT_RECOGNIZER = /^coa:\s*(.*?)\s*\Z/m
 
-  DEFAULT_FORMATTER = lambda { |text| "COVER:\n#{text.upcase}" }
+  DEFAULT_FORMATTER = lambda { |text| "coa:\n#{text.upcase}" }
 
   NULL_FORMATTER = lambda { |text| text }
 
@@ -28,7 +28,7 @@ class CoverSheet
   end
 
   def normalized_eql(text1, text2)
-    binding.pry unless result = normalize_cover_text(text1) == normalize_cover_text(text2)
+    pry_me unless result = normalize_cover_text(text1) == normalize_cover_text(text2)
     result
   end
 

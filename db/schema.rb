@@ -11,6 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20140302154057) do
+
+  create_table "jobs", force: true do |t|
+    t.date    "sent_date"
+    t.string  "from"
+    t.boolean "processed"
+  end
 
 end

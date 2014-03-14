@@ -6,8 +6,11 @@ else
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.1'
+gem 'rails', '~> 4.0.1'
 gem 'google_drive'
+gem 'mail'
+
+gem 'bootstrap-sass', '~> 3.1.1'
 
 platforms :jruby do
   gem 'rmagick4j', require: false
@@ -42,8 +45,8 @@ group :development, :test do
 end
 
 group :test do
-  gem 'rspec'
-  gem 'rspec-rails'
+  gem 'rspec', '~> 3.0.0.beta2'
+  gem 'rspec-rails', '~> 3.0.0.beta2'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'selenium-webdriver'

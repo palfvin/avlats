@@ -14,7 +14,7 @@ class PDFHelper
 
   def exec_command(command)
     command = command.join(' ') if command.kind_of?(Array)
-    binding.pry unless result = Kernel.system(command)
+    pry_me unless result = Kernel.system(command)
     result
   end
 
@@ -29,14 +29,9 @@ class PDFHelper
   end
 
   def convert_pdf_to_png(pdf_filename, png_filename, rotation = 0)  # rotation doesn't work!!!
-    options = "-dSAFER -dBATCH -dNOPAUSE -r200 -sDEVICE=pnggray -dAutoRotatePages=/None"
-    code = %Q(-c "<</Orientation 2>>" setpagedevice #{rotation} rotate)
-    exec_command([gs, options, "-sOutputFile=#{png_filename}", code, "-f #{pdf_filename}"])
+    options = "-dSAFER -dBATCH -dNOPAUSE -r100 -sDEVICE=pnggray"
+    exec_command([gs, options, "-sOutputFile=#{png_filename}", "-f #{pdf_filename}"])
     png_filename
-  end
-
-  def convert_png_to_rotated_png(input_png, output_png, rotation)
-    Magick::Image.read(input_png)[0].rotate(rotation).write(output_png)
   end
 
   def merge_pdf_files(input_files, output_file = CoverSheet.tmpfile('.pdf'))

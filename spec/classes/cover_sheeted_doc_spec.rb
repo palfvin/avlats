@@ -31,7 +31,7 @@ describe "sheet processor", slow: true do
     normalize = lambda { |text| CoverSheet.normalize_cover_text(text) }
     tempfiles = [] # To keep garbage collector from deleting the files
     page_text = lambda { |i| 
-      binding.pry if i.nil?
+      pry_me if i.nil?
       base_page_text+page_identifiers[i]}
     page_pdfs = doc_sheets.each_with_index.map do |text, i|
       text ||= page_text.(i)
@@ -47,7 +47,7 @@ describe "sheet processor", slow: true do
       if set[1]
         decode_results = DefaultCoverSheet.decode_pdf(pdf, normalize: true)
         expected_results = set[1].map {|i| page_text.(i)}
-        binding.pry unless pdf && decode_results == expected_results
+        pry_me unless pdf && decode_results == expected_results
         expect(decode_results).to eql(expected_results)
       else expect(pdf).to be nil
       end

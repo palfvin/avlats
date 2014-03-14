@@ -11,7 +11,7 @@ class CoverSheetedDoc
   end
 
   def process_sets(&set_proc)
-    binding.pry if @sets.nil?
+    pry_me if @sets.nil?
     @sets.each do |text, range|
       set_pdf = range ? @pdf_helper.extract_pdf(@filename, range) : nil
       set_proc.(CoverSheet.text_from_cover(text, @cover_sheet_pattern), set_pdf)

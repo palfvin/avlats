@@ -16,7 +16,7 @@ describe "basic avlats operation", slow: true do
   before(:all) do
     @docupository = DocFiler.new(ENV['COA_SCANS_NAME'], ENV['COA_SCANS_PASSWORD'], root: TestSetup.root_folder)
     @docupository.delete_folder_contents
-    @docupository.add_folder_path(TestSetup.dummy_property_path)
+    @docupository.add_nested_folders(TestSetup.dummy_property_path)
     @docupository.folder('/')
   end
 
